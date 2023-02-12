@@ -38,12 +38,13 @@ function getFirstDayCurrentMonth() {
 
 async function checkPerks() {
 
-    const perkTransaction = transaction => new Date(transaction.createdAt) >= getFirstDayCurrentMonth() && transaction.reference_type.indexOf('perk') >= 0;
-    const perkTransactionsOfCurrentMonth = await getRewards().then(result => result.filter(perkTransaction));
+    const isPerkTransaction = transaction => new Date(transaction.createdAt) >= getFirstDayCurrentMonth() && transaction.reference_type.indexOf('perk') >= 0;
+    const perkTransactionsOfCurrentMonth = await getRewards().then(result => result.filter(isPerkTransaction));
 
     const userPerks = await getUserPerks().then(userPerks => userPerks.perks);
-    const usedPerks = userPerks.filter(perk => perkTransactionsOfCurrentMonth.some(transaction => transaction.reference_type === `perk_${perk.id}_reward`));
-    const unusedPerks = userPerks.filter(perk => perkTransactionsOfCurrentMonth.every(transaction => transaction.reference_type !== `perk_${perk.id}_reward`));
+    const isUsedPerk = (transaction, perk) => transaction.reference_type === `perk_${perk.id}_reward`;
+    const usedPerks = userPerks.filter(perk => perkTransactionsOfCurrentMonth.some(transaction => isUsedPerk(transaction, perk)));
+    const unusedPerks = userPerks.filter(perk => perkTransactionsOfCurrentMonth.every(transaction => !isUsedPerk(transaction, perk)));
 
     window.alert('Unused perks: ' + unusedPerks.map(perk => perk.label) + '\nUsed perks: ' + usedPerks.map(perk => perk.label));
 }
