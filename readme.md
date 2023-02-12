@@ -8,7 +8,7 @@ This is a bookmarklet which gives information about the usage of this month's pe
 2. Edit the bookmark you just created and change its address to the content from the bookmarklet file of this repository
 3. Log in to dex.plutus.it as usual and visit the bookmark to execute it
 
-![Alt text](/../screenshots/perks.png?raw=true "Optional Title")
+![Alt text](/../screenshots/screenshots/perks.png?raw=true "Optional Title")
 
 ## Credit
 
